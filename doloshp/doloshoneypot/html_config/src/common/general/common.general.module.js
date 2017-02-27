@@ -1,0 +1,1 @@
+define(["angularAMD","Restangular","common/config/env.module"],function(e){var t=angular.module("app.common.general",["restangular","config"]);return t.config(["$controllerProvider","$compileProvider","$filterProvider","$provide",function(e,n,r,i){t.register={controller:e.register,directive:n.directive,filter:r.register,factory:i.factory,service:i.service}}]),t});

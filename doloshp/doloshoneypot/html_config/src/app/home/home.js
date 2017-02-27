@@ -1,0 +1,1 @@
+angular.module("console.home",["ui.state","placeholders","ui.bootstrap","ngCookies","templates-common"]).config(["$stateProvider",function(t){var n=routingConfig.accessLevels;t.state("home",{url:"/home",access:n.public,views:{main:{controller:"HomeCtrl",templateUrl:"home/home.tpl.html"}}})}]).controller("HomeCtrl",function(){});

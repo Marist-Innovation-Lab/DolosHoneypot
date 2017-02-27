@@ -1,0 +1,1 @@
+angular.module("common.services",[]).factory("NBApiStatSvc",["$http","config",function(e,t){var n={};return n.check=function(n){e.get(t.endpoint_base).success(function(e){n()})},n}]).factory("UserService",function(){var e=null,t=[],n={};return n});

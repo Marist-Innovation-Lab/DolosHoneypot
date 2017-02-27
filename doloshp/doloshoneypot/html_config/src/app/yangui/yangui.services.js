@@ -1,0 +1,1 @@
+define(["app/yangui/yangui.module"],function(e){e.register.factory("YangConfigRestangular",["Restangular","ENV",function(e,t){return e.withConfig(function(e){e.setBaseUrl(t.getBaseURL("MD_SAL"))})}])});

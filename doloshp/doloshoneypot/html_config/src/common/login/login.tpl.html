@@ -1,0 +1,155 @@
+<body class="skin-3">
+  <div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="login-panel panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Please Sign In</h3>
+      </div>
+      <div ng-app="myApp" ng-controller="myCtrl">
+			<p style="color: red; text-align:center;" ng-bind="name"></p>
+	  <script>
+				var app = angular.module('myApp', []);
+				app.controller('myCtrl', function($scope) {
+					 $scope.name;
+					 $scope.sendLogin = function() {
+						$scope.name = "Unable to Login";
+					}
+				});
+	  </script>
+      <img class="img-responsive" style="width: 350px" src="assets/images/opendaylight-open-source.jpg" alt="OpenDayLight">
+        <div class="panel-body">
+        <form role="form">
+          <fieldset>
+            <div class="form-group">
+              <input class="form-control" ng-model="login.username" placeholder="Username" name="usernames" type="text" autofocus>
+            </div>
+            <div class="form-group">
+              <input class="form-control" placeholder="Password" ng-model="login.password" name="passwords" type="password" value="">
+            </div>
+            <div class="checkbox">
+              <label>
+                <input ng-model="login.remember" name="remember" type="checkbox" value="Remember Me">Remember Me
+              </label>
+            </div>
+            <!-- Change this to a button or input when using this as a form -->
+            <button ng-click="sendLogin()" class="btn btn-lg btn-orange btn-block">Login</a>
+			<script>
+			 $(document).ready(function(){
+			var x = location.port;		
+				if (x == 8181){
+					
+					console.log("you are secured!");
+								$( "#dialog" ).dialog({
+								  autoOpen: false,
+								  resizable: false,
+								  draggable:false,
+								  show: {
+									effect: "none"
+								  },
+								  hide: {
+									effect: "none"
+								  }
+								});
+							$("#dialog").html("<form roll='form' class='loginDialog'><p class='titles'>Authentication Required </p><p class='top-para'>http://10.11.17.135:8181 requires a username and password.</p><p class='second-para'>Your connection is not private.</p><table class='userTable'><tr><td>User Name:</td><td><input ng-model='login.username' name='username' type='text' autofocus></td></tr><tr><td>Password:</td><td><input ng-model='login.password' name='password' type='password' value=''></td></tr></table><button class='btns cancel' type='button'>Cancel</button><button ng-click='sendLogin()' class='btns log'>Login</button></form>");
+					
+					
+					
+					
+						$('.btn-block').click(function(){
+						
+								$( "#dialog" ).dialog( "open" );
+								$(".ui-dialog").removeClass(' ui-draggable-disabled ui-state-disabled');
+								$(".cancel").click(function(){
+									$("#dialog"  ).dialog( "close" );
+
+								});
+								  });
+								
+							$(".loginDialog").submit(function(event){
+								var username= $("input[name = 'usernames']").val();
+								var password =$("input[name = 'passwords']").val();
+								var dataString = '&usernames='+ username + '&passwords='+ password
+								$.ajax({
+								type: "POST",
+								url: "restconf/modules",
+								//url: "src/checkUser.php",
+								data: dataString,
+								success: function() {
+								console.log(username);
+								console.log(password);
+								console.log('success');
+
+								}
+								});
+								$("#dialog"  ).dialog( "close" ).delay( 800 ).fadeIn( 400 );
+									event.preventDefault();
+								$( "#dialog" ).dialog( "open" ).delay( 800 ).fadeIn( 400 );
+							});
+							
+									
+				}else{
+					console.log("you are not secured");
+					$('.btn-block').click(function(){
+							var username= $("input[name = 'usernames']").val();
+							var password =$("input[name = 'passwords']").val();
+							var dataString = '&usernames='+ username + '&passwords='+ password
+									$.ajax({
+										type: "POST",
+										url: "restconf/modules",
+										data: dataString,
+										success: function() {
+											console.log(username);
+											console.log(password);
+											console.log('success');		
+											}
+										  });
+									  });
+					}					
+}); 
+			</script>
+			
+			
+			
+          </fieldset>
+        </form>
+      </div>
+	  </div>
+    </div>
+  </div>
+</div>
+<div id="dialog"></div>
+
+  </body>
+  <!--<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="login-panel panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Please Sign In</h3>
+      </div>
+      <div style="color:Red;text-align: center">{{error}}</div>
+      <img style="width: 350px" src="assets/images/opendaylight-open-source.jpg" alt="OpenDayLight">
+        <div class="panel-body">
+        <form role="form">
+          <fieldset>
+            <div class="form-group">
+              <input class="form-control" ng-model="login.username" placeholder="Username" name="username" type="text" autofocus>
+            </div>
+            <div class="form-group">
+              <input class="form-control" placeholder="Password" ng-model="login.password" name="password" type="password" value="">
+            </div>
+            <div class="checkbox">
+              <label>
+                <input ng-model="login.remember" name="remember" type="checkbox" value="Remember Me">Remember Me
+              </label>
+            </div>-->
+            <!-- Change this to a button or input when using this as a form -->
+            <!--<button ng-click="sendLogin()" class="btn btn-lg btn-orange btn-block">Login</a>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>-->
+

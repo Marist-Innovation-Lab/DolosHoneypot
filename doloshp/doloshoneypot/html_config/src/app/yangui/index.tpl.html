@@ -1,0 +1,41 @@
+<div>
+  <div ng-show='previewVisible' class='topologyContainer previewContainer'>
+    <button class="close" ng-click="hidePreview()">&times;</button>
+    <div class="previewWrapper">
+      <pre>{{previewValue}}</pre>
+    </div>
+  </div>
+
+  <div ng-show='topologyData.nodes.length > 0' class='topologyContainer'>
+    <button class="close" ng-click="clearTopologyData()">&times;</button>
+    <topology-simple topology-data="topologyData"></topology-simple>
+  </div>
+
+  <div class="simpleContainer">
+    <div>
+      <span>{{ 'MODULE' | translate }}</span>
+
+      <abn-tree tree-data="treeApis" on-select="setApiNode(branch)"></abn-tree>
+    </div>
+    
+    <div sticky class="selSubApiPath">
+      <div class="in">
+        <span ng-repeat="pathElem in selSubApi.pathArray">{{'/'+pathElem.name}}
+          <span ng-show="pathElem.hasIdentifier()">/<input  type="text" class="form-control input-small" ng-model="pathElem.identifierValue"></input></span>
+        </span>
+        <button ng-repeat="operation in selSubApi.operations" class="btn add-row btn-orange btn-slim ng-scope" style="margin-right: 5px" ng-click="executeOperation(operation)">{{operation}}</button>
+        <button ng-repeat="custFunct in selSubApi.custFunct" class="btn add-row btn-orange btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{custFunct.label}}</button>
+        <button ng-click="showPreview()" class="btn add-row btn-orange ng-scope btn-slim">{{ 'SHOW_PREVIEW' | translate }}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <button class="btn add-row btn-orange ng-scope" ng-click="getAPIs()" >Export locales</button> -->
+  <br>
+
+  <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }} </b><b>{{status.rawMsg}}</b></alert>
+  <div class="form-inline">
+    <div ng-if="node" ng-include src="currentPath+'/'+ apiType + node.type+'.tpl.html'"></div>
+  </div>
+
+</div>

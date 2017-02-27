@@ -1,0 +1,9 @@
+/*
+ * Copyright (c) 2014 Cisco Systems, Inc. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+
+define(["angularAMD","app/routingConfig","Restangular","angular-translate","angular-translate-loader-static-files","app/core/core.services","common/config/env.module"],function(e){var t=angular.module("app.nodes",["app.core","pascalprecht.translate","ui.router.state","restangular","config"]);return t.register=t,t.config(["$stateProvider","$compileProvider","$controllerProvider","$provide","NavHelperProvider","$translateProvider",function(e,n,r,i,s,o){t.register={controller:r.register,directive:n.directive,factory:i.factory,service:i.service},o.useStaticFilesLoader({prefix:"assets/data/locale-",suffix:".json"}),s.addControllerUrl("app/node/nodes.controller"),s.addToMenu("nodes",{link:"#/node/index",active:"main.node.*",title:"NODES",icon:"icon-sitemap",page:{title:"NODES",description:"NODES"}});var u=routingConfig.accessLevels;e.state("main.node",{url:"node","abstract":!0,views:{content:{templateUrl:"src/app/node/root.tpl.html",controller:"rootNodeCtrl"}}}),e.state("main.node.index",{url:"/index",access:u.admin,views:{"":{templateUrl:"src/app/node/index.tpl.html",controller:"allNodesCtrl"}}}),e.state("main.node.detail",{url:"/:nodeId/detail",access:u.admin,views:{"":{templateUrl:"src/app/node/detail.tpl.html",controller:"nodeConnectorCtrl"}}}),e.state("main.node.flow-stat",{url:"/:nodeId/flow-stat",access:u.admin,views:{"":{templateUrl:"src/app/node/flow-stat.tpl.html",controller:"nodeConnectorCtrl"}}}),e.state("main.node.port-stat",{url:"/:nodeId/port-stat",access:u.admin,views:{"":{templateUrl:"src/app/node/port-stat.tpl.html",controller:"nodeConnectorCtrl"}}})}]),t});

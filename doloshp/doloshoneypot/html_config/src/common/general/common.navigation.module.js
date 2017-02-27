@@ -1,0 +1,1 @@
+define(["angularAMD"],function(e){var t=angular.module("app.common.navigation",[]);return t.config(["$compileProvider","$provide",function(e,n){t.register={directive:e.directive,factory:n.factory}}]),t});

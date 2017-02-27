@@ -1,0 +1,1 @@
+angular.module("common.filters",[]).filter("noRootPorts",function(){return function(e){if(!e)return;return e.filter(function(e){return e.nodeconnector.id!=="0"?e:null})}});

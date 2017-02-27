@@ -1,0 +1,9 @@
+{
+    "require": {
+        "willdurand/geocoder": "^3.3",
+        "egeloen/google-map": "^1.4",
+        "widop/http-adapter": "^1.1",
+        "php-http/httplug": "^1.0",
+        "geoip2/geoip2": "~2.0"
+    }
+}

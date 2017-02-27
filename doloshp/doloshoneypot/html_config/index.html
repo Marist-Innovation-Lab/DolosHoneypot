@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>OpenDaylight Dlux</title>
+
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- compiled CSS -->
+    <link rel="stylesheet" type="text/css" href="vendor/ng-grid/ng-grid.min.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/select2-bootstrap-css/select2-bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/footable/css/footable.core.min.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/footable/css/footable.standalone.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="vendor/vis/dist/vis.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/opendaylight-dlux-0.1.0.css" />
+    <link rel="stylesheet" href="assets/css/sb-admin.css" />
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="/src/main.js"></script>
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+    <!-- the font-awesome is different from the 'official' one -->
+
+    </style>
+
+</head>
+
+<body class="skin-3" onload='location.href="#/login"'>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please Sign In</h3>
+                    </div>
+                    <div ng-app="myApp" ng-controller="myCtrl">
+                        <p style="color: red; text-align:center;" ng-bind="name"></p>
+                        <img class="img-responsive" style="width: 350px" src="assets/images/opendaylight-open-source.jpg" alt="OpenDayLight">
+                        <div class="panel-body">
+                            <form role="form">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <input class="form-control" ng-model="login.username" placeholder="Username" name="usernames" type="text" autofocus>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Password" ng-model="login.password" name="passwords" type="password" value="">
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+										<input ng-model="login.remember" name="remember" type="checkbox" value="Remember Me">Remember Me
+										</label>
+                                    </div>
+                                    <!-- Change this to a button or input when using this as a form -->
+                                    <button ng-click="sendLogin()" class="btn btn-lg btn-orange btn-block">Login</a>
+								</fieldset>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<div id="dialog"></div>
+
+</body>
+
+</html>
