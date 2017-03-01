@@ -68,6 +68,6 @@ else
 //error_log("$timestamps dolos SDN-22[0000]: IP: $ip SDNLog: Username: $username Password: $password ; Client protocol version $browserInfo; client software version $osVer;Remote port: $port; Local port: $ports; \n", 3, "/var/log/dolos_messages");
 
 openlog('SDN', LOG_PID, LOG_AUTH);
-syslog(LOG_INFO, "IP: $ip SDNLog: Username: $username Password: $password HPID: $HPID\n");
-syslog(LOG_INFO, "$ip Client protocol version $browserInfo; client software version $osVer;Remote port: $port; Local port: $ports; \n");
+syslog(LOG_INFO, "HPID: $HPID IP: $ip Local Port: $ports Username: $username Password: $password \n");
+syslog(LOG_INFO, "Attack From: $ip; Client protocol version $browserInfo; client software version $osVer; Remote port: $port; Local port: $ports \n");
 ?>
