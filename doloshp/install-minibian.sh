@@ -12,7 +12,7 @@ apt-get install -q -y sudo
 
 # Create a sudoer to then login as so psql can install correctly (psql does not like the root user setting up)
 # If the account needs to be created we need to run the rest of the script as that user, thus we create a new script to be run as that user.
-echo "Are you logged in as root? Do you need to make a new sudoer? (you must superuser do (sudo) this script, not run directly as root) y/n"
+echo "You cannot be logged in as root (your prompt is #) Please confirm you are running this script as a sudoer (your prompt is $) and not root y/n"
 read -r -n 1 USERFLAG
 echo
 if [[ "$USERFLAG" == [Yy]* ]]
@@ -35,8 +35,7 @@ if [[ "$USERFLAG" == [Yy]* ]]
 ##Collect data for configuring rsyslog 
 echo -e "Please enter the ip that syslog should send logs to [Format: 0.0.0.0:Port]: "
 read SYSLOG_SERVER
-#todo: error/dummy check for the server
-if [[$SYSLOG_SERVER]]
+if [[ $SYSLOG_SERVER ]]
  then
   echo -e "Which protocol would you like to use for the syslog? TCP or UDP: "
   read PROTOCOL 
@@ -112,7 +111,7 @@ cp -f doloshoneypot/apache_config/security.conf $APACHE_DIR/conf-available
  # Configure rsyslog
 echo -e "\nConfiguring rsyslog..."
 
-if [[$SYSLOG_SERVER]]
+if [[ $SYSLOG_SERVER ]]
  then
   if [[ "$PROTOCOL" == "TCP" ]]
    then
@@ -154,8 +153,7 @@ fi
 #Collect data for configuring rsyslog 
 echo -e "Please enter the ip that syslog should send logs to [Format: 0.0.0.0:Port]: "
 read SYSLOG_SERVER
-#todo: error/dummy check for the server
-if [[$SYSLOG_SERVER]]
+if [[ $SYSLOG_SERVER ]]
  then
   echo -e "Which protocol would you like to use for the syslog? TCP or UDP: "
   read PROTOCOL 
@@ -232,7 +230,7 @@ sed -i '/opcache.enable=0/s/^;//g' $ini_file_loc
 # Configure rsyslog
 echo -e "\nConfiguring rsyslog..."
 
-if [[$SYSLOG_SERVER]]
+if [[ $SYSLOG_SERVER ]]
  then
   if [[ "$PROTOCOL" == "TCP" ]]
    then
@@ -257,10 +255,12 @@ if [[ -z $CHECK_ID_ENVIROMENT ]]
   export HPID=$(dbus-uuidgen)
   echo "HPID=${HPID}" >> /etc/environment
   echo "HPID=${HPID}" >> /etc/apache2/envvars
-elif [[ -z $CHECK_ID_APACHE ]]
+fi
+if [[ -z $CHECK_ID_APACHE ]]
  then
   echo -e "Generating your unique HPID..."
-  echo "HPID=$CHECK_ID_ENVIROMENT" >> /etc/apache2/envvars
+  echo "# Environment variable for HPID loaded into Apache" >> /etc/apache2/envvars
+  echo "export HPID=$CHECK_ID_ENVIROMENT" >> /etc/apache2/envvars
 else
  echo -e "You already have an HPID... skipping step..."
 fi
@@ -274,5 +274,17 @@ service rsyslog restart
 
 echo -e "\nDolos honeypot install complete. You can access the database through the command 'sudo psql -d doloshp'"
 echo -e "To view the web interface: {serverIP}:8080/index.html"
+
+
+# For the HPID to fully register within APACHE2 and ENVVARS the machine must be rebooted
+echo -e "This machine must be rebooted for installation to finalize. Would you like to reboot now? y/n"
+read -r -n 1 REBOOT
+echo
+if [[ "$REBOOT" == [Yy]* ]]
+ then
+ /sbin/shutdown -r +1 DOLOS Configuration
+fi
+
+
 
 exit

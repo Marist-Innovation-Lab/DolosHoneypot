@@ -6,6 +6,28 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+#Collect data for configuring rsyslog 
+echo -e "Please enter the ip that syslog should send logs to [Format: 0.0.0.0:Port]: "
+read SYSLOG_SERVER
+if [[ $SYSLOG_SERVER ]]
+ then
+  echo -e "Which protocol would you like to use for the syslog? TCP or UDP: "
+  read PROTOCOL 
+
+  while true
+   do
+    if [ "$PROTOCOL" != "TCP" ] && [ "$PROTOCOL" != "UDP" ]
+     then
+     echo -e "Please enter a valid protocol. TCP or UDP: "
+     read PROTOCOL
+    elif [ "$PROTOCOL" == "TCP" ] || [ "$PROTOCOL" == "UDP" ]
+     then
+     break 2
+    fi
+   done
+fi
+
+
 # Install required packages
 echo -e "\nInstalling required packages..."
 
@@ -61,12 +83,66 @@ psql doloshp -f doloshoneypot/dolosSQL.sql
 ini_file_loc=`find /etc -print0 | grep -FzZ "apache2/php.ini"`
 sed -i '/opcache.enable=0/s/^;//g' $ini_file_loc
 
-# Restart Apache and Postgres so the configurations get enabled
+
+
+# Configure rsyslog
+echo -e "\nConfiguring rsyslog..."
+
+if [[ $SYSLOG_SERVER ]]
+ then
+  if [[ "$PROTOCOL" == "TCP" ]]
+   then
+    sed -i '/#$ModLoad imtcp/ c\$ModLoad imtcp' /etc/rsyslog.conf
+    sed -i '/#$InputTCPServerRun .*/ c\$InputTCPServerRun 514' /etc/rsyslog.conf
+  elif [[ "$PROTOCOL" == "UDP" ]]
+   then
+    sed -i '/#$ModLoad imudp/ c\$ModLoad imudp' /etc/rsyslog.conf
+    sed -i '/#$InputUDPServerRun .*/ c\$InputUDPServerRun 514' /etc/rsyslog.conf
+  fi
+ echo "*.* @@${SYSLOG_SERVER};RSYSLOG_SyslogProtocol23Format" > /etc/rsyslog.d/00-DOLOS.conf
+fi
+
+#Check for / Generate uuid for the HoneyPotID (HPID)
+
+echo -e "Checking if you have an HPID..."
+CHECK_ID_ENVIROMENT=$(grep -oP "HPID=.*" /etc/environment | sed 's/HPID=//g')
+CHECK_ID_APACHE=$(grep -oP "HPID=.*" /etc/apache2/envvars | sed 's/HPID=//g')
+if [[ -z $CHECK_ID_ENVIROMENT ]]
+ then 
+  echo -e "Generating your unique HPID..."
+  export HPID=$(dbus-uuidgen)
+  echo "HPID=${HPID}" >> /etc/environment
+  echo "export HPID=${HPID}" >> /etc/apache2/envvars
+fi
+if [[ -z $CHECK_ID_APACHE ]]
+ then
+  echo -e "Generating your unique HPID..."
+  echo "# Environment variable for HPID loaded into Apache" >> /etc/apache2/envvars
+  echo "export HPID=$CHECK_ID_ENVIROMENT" >> /etc/apache2/envvars
+else
+ echo -e "You already have an HPID... skipping step..."
+fi
+
+
+# Restart Apache, RSYSLOG, and Postgres so the configurations get enabled
 service apache2 restart
 service postgresql restart
+service rsyslog restart
 
 echo -e "\nDolos honeypot install complete. You can access the database through the command 'sudo psql -d doloshp'"
 echo -e "To view the web interface: {serverIP}:8080/index.html"
 
 
+# For the HPID to fully register within APACHE2 and ENVVARS the machine must be rebooted
+echo -e "This machine must be rebooted for installation to finalize. Would you like to reboot now? y/n"
+read -r -n 1 REBOOT
+echo
+if [[ "$REBOOT" == [Yy]* ]]
+ then
+ /sbin/shutdown -r +1 DOLOS Configuration
+fi
+
+
+
+exit
 
