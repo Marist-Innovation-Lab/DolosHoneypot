@@ -15,7 +15,7 @@ apt-get install -q -y sudo
 echo "You cannot be logged in as root (your prompt is #) Please confirm you are running this script as a sudoer (your prompt is $) and not root y/n"
 read -r -n 1 USERFLAG
 echo
-if [[ "$USERFLAG" == [Yy]* ]]
+if [[ "$USERFLAG" == [Nn]* ]]
  then
   echo -e "\nPlease fill out the information below to create a new sudoer"
   read -p "Username : " USERNAME
