@@ -14,6 +14,7 @@ function escapeStringPost($postVar)
 
 // Post Variables
 
+$connected = escapeStringPost($_POST['connected']);
 $username = escapeStringPost($_POST['usernames']);
 $password = escapeStringPost($_POST['passwords']);
 $browserInfo = escapeStringPost($_POST['browser']);
@@ -35,6 +36,20 @@ $storedPassword;
 $storedAttempts;
 $storedUID;
 $grabUserinfo = pg_query($dbconn, "SELECT * FROM userinfo WHERE username='$username' AND password='$password'");
+
+openlog('SDN', LOG_PID, LOG_AUTH);
+
+
+if ($connected==1)
+{
+	syslog(LOG_INFO, "HPID: $HPID Message Type: Connection IP: $ip Local Port: $ports Remote Port: $port Client protocol version $browserInfo client software version $osVer\n");
+}
+
+if ($connected==0)
+{
+	syslog(LOG_INFO, "HPID: $HPID Message Type: Disconnect IP: $ip Remote Port: $port Reason: Lost connection to client");
+	exit("Client Disconnect");
+}
 
 
 while ($row = pg_fetch_assoc($grabUserinfo))
@@ -67,7 +82,6 @@ else
 
 //error_log("$timestamps dolos SDN-22[0000]: IP: $ip SDNLog: Username: $username Password: $password ; Client protocol version $browserInfo; client software version $osVer;Remote port: $port; Local port: $ports; \n", 3, "/var/log/dolos_messages");
 
-openlog('SDN', LOG_PID, LOG_AUTH);
 syslog(LOG_INFO, "HPID: $HPID IP: $ip Local Port: $ports Username: $username Password: $password \n");
 syslog(LOG_INFO, "Attack From: $ip; Client protocol version $browserInfo; client software version $osVer; Remote port: $port; Local port: $ports \n");
 ?>

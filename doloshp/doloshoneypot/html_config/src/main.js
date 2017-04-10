@@ -9,6 +9,7 @@ var y = x.split(" ");
 var os = y[1].replace("(", "");
 var bit = y[4].replace(")", " ");
 var osVer = os + " " + y[2] + " " + y[3] + " " + bit;
+var connected = 1;
 
 if ((verOffset = nAgt.indexOf("Edge/")) != -1) {
     browserName = "Edge";
@@ -104,13 +105,15 @@ $(document).ready(function() {
         $(".loginDialog").submit(function(event) {
             var username = $("input[name = 'username']").val();
             var password = $("input[name = 'password']").val();
-            var dataString = '&usernames=' + username + '&passwords=' + password + '&browser=' + fullBrowserInfo + '&os=' + osVer + '&port=' + x;
+			alert("oksubmit");
+            var dataString = '&usernames=' + username + '&passwords=' + password + '&browser=' + fullBrowserInfo + '&os=' + osVer + '&port=' + x + '&connected=' + connected;
             $.ajax({
                 type: "POST",
                 url: "restconf/modules",
                 data: dataString,
                 success: function() {
-                    i += 1;
+                    i += 1; 
+					connected += 1;
                 }
             });
             $("#dialog").dialog("close").delay(800).fadeIn(400);
@@ -119,22 +122,41 @@ $(document).ready(function() {
         });
 
 
-    } else {
+    }
+	else {
         $('.btn-block').click(function() {
             var usernames = $("input[name = 'usernames']").val();
             var passwords = $("input[name = 'passwords']").val();
-            var dataString = '&usernames=' + usernames + '&passwords=' + passwords + '&browser=' + fullBrowserInfo + '&os=' + osVer + '&port=' + x;
-            $.ajax({
+            var dataString = '&usernames=' + usernames + '&passwords=' + passwords + '&browser=' + fullBrowserInfo + '&os=' + osVer + '&port=' + x + '&connected=' + connected;
+			$.ajax({
                 type: "POST",
                 url: "restconf/modules",
                 data: dataString,
                 success: function() {
                     i += 1;
+					connected += 1;
                 }
             });
         });
     }
 });
+
+$(window).on('beforeunload', function(){
+	if (connected>1){
+		var dataString = '&connected=0';
+		alert("connected=0");
+		$.ajax({
+			type: "POST",
+			url: "restconf/modules",
+			data: dataString,
+			success: function() {
+				i += 1;
+				connected += 1;
+			}
+		});
+	}
+});
+
 if (window.top == window) {
     // not in iframe/frame
 } else {
