@@ -56,6 +56,8 @@ fi
  # Install required packages
  echo -e "\nInstalling required packages..."
 
+  apt-get update
+
  for i in apache2 php5 postgresql php5-pgsql libapache2-mod-php5 libapache2-modsecurity ; do
   echo -en "\n>Installing $i...\n"
   apt-get install -q -y $i
@@ -173,6 +175,8 @@ fi
 
 # Install required packages
 echo -e "\nInstalling required packages..."
+
+apt-get update
 
 for i in apache2 php5 postgresql php5-pgsql libapache2-mod-php5 libapache2-modsecurity ; 
  do

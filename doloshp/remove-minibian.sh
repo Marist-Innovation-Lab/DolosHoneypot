@@ -16,4 +16,4 @@ apt-get -q -y --purge remove postgresql\*
 apt-get -q -y --purge remove apache2\*
 apt-get -q -y --purge remove php5
 
-rm /etc/ryslog.d/00-DOLOS.conf
+rm /etc/rsyslog.d/00-DOLOS.conf
