@@ -101,6 +101,7 @@ if [[ $SYSLOG_SERVER ]]
     sed -i '/#$ModLoad imudp/ c\$ModLoad imudp' /etc/rsyslog.conf
     sed -i '/#$InputUDPServerRun .*/ c\$InputUDPServerRun 514' /etc/rsyslog.conf
   fi
+ sed -i '/$RepeatedMsgReduction on/ c\$RepeatedMsgReduction off' /etc/rsyslog.conf
  echo "*.* @@${SYSLOG_SERVER};RSYSLOG_SyslogProtocol23Format" > /etc/rsyslog.d/00-DOLOS.conf
 fi
 
