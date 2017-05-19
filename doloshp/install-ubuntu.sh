@@ -108,7 +108,6 @@ fi
 
 echo -e "Checking if you have an HPID..."
 CHECK_ID_ENVIROMENT=$(grep -oP "HPID=.*" /etc/environment | sed 's/HPID=//g')
-CHECK_ID_APACHE=$(grep -oP "HPID=.*" /etc/apache2/envvars | sed 's/HPID=//g')
 if [[ -z $CHECK_ID_ENVIROMENT ]]
  then 
   echo -e "Generating your unique HPID..."
@@ -116,6 +115,7 @@ if [[ -z $CHECK_ID_ENVIROMENT ]]
   echo "HPID=${HPID}" >> /etc/environment
   echo "export HPID=${HPID}" >> /etc/apache2/envvars
 fi
+CHECK_ID_APACHE=$(grep -oP "HPID=.*" /etc/apache2/envvars | sed 's/HPID=//g')
 if [[ -z $CHECK_ID_APACHE ]]
  then
   echo -e "Generating your unique HPID..."

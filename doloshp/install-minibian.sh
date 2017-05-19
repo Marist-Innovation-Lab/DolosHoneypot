@@ -130,12 +130,20 @@ fi
 #Check for / Generate uuid for the HoneyPotID (HPID)
 
 echo -e "Checking if you have an HPID..."
-CHECK_ID=$(grep -oP "HPID=.*" /etc/environment | sed 's/HPID=//g')
-if [[ -z $CHECK_ID ]]
+CHECK_ID_ENVIROMENT=$(grep -oP "HPID=.*" /etc/environment | sed 's/HPID=//g')
+if [[ -z $CHECK_ID_ENVIROMENT ]]
  then 
   echo -e "Generating your unique HPID..."
   export HPID=$(dbus-uuidgen)
   echo "HPID=${HPID}" >> /etc/environment
+  echo "HPID=${HPID}" >> /etc/apache2/envvars
+fi
+CHECK_ID_APACHE=$(grep -oP "HPID=.*" /etc/apache2/envvars | sed 's/HPID=//g')
+if [[ -z $CHECK_ID_APACHE ]]
+ then
+  echo -e "Generating your unique HPID..."
+  echo "# Environment variable for HPID loaded into Apache" >> /etc/apache2/envvars
+  echo "export HPID=$CHECK_ID_ENVIROMENT" >> /etc/apache2/envvars
 else
  echo -e "You already have an HPID... skipping step..."
 fi
@@ -252,7 +260,6 @@ fi
 
 echo -e "Checking if you have an HPID..."
 CHECK_ID_ENVIROMENT=$(grep -oP "HPID=.*" /etc/environment | sed 's/HPID=//g')
-CHECK_ID_APACHE=$(grep -oP "HPID=.*" /etc/apache2/envvars | sed 's/HPID=//g')
 if [[ -z $CHECK_ID_ENVIROMENT ]]
  then 
   echo -e "Generating your unique HPID..."
@@ -260,6 +267,7 @@ if [[ -z $CHECK_ID_ENVIROMENT ]]
   echo "HPID=${HPID}" >> /etc/environment
   echo "HPID=${HPID}" >> /etc/apache2/envvars
 fi
+CHECK_ID_APACHE=$(grep -oP "HPID=.*" /etc/apache2/envvars | sed 's/HPID=//g')
 if [[ -z $CHECK_ID_APACHE ]]
  then
   echo -e "Generating your unique HPID..."
