@@ -61,11 +61,12 @@
 *	Unzip the file <i>doloshp_install.zip</i>
 *	Give executable permissions to the shell script releative to your linux distro
 <pre> chmod +x filename.sh </pre>
-*************THE CENTOS INSTALL SCRIPT IS DEPRECATED AND WILL NOT INTERACT PROPERLY WITH A SYSLOG SERVER*************
+*       Run the installation script.
+<pre> sudo ./filename.sh </pre>
 #### Launching Dolos
 *         After Dolos has been deployed , you should see an IP address at the end of the installation. Use this address to access the http interface
 *         Once opened, attempt to "login" to the interface (<b> note: </b> you will always receive a login failed message, as this honey pot is not connected to any real service
 ### Testing Dolos
-*         To test the database connection, login to the psql database named "insert name here later*
+*         To test the database connection, login to the psql database named doloshp
 *         Attempt a web-login through the http interface
 *         Check to see if there are any new entries within the tables of the database.
