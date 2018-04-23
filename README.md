@@ -60,9 +60,9 @@
 ### Installing Dolos
 *	Unzip the file <i>doloshp_install.zip</i>
 *	Give executable permissions to the shell script releative to your linux distro
-<pre> chmod +x filename.sh </pre>
-*       Run the installation script.
-<pre> sudo ./filename.sh </pre>
+<pre> chmod +x filename.sh </pre>  
+*	Run the installation script.  
+<pre> sudo ./filename.sh </pre>  
 #### Launching Dolos
 *         After Dolos has been deployed , you should see an IP address at the end of the installation. Use this address to access the http interface
 *         Once opened, attempt to "login" to the interface (<b> note: </b> you will always receive a login failed message, as this honey pot is not connected to any real service
